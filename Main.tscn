@@ -1,0 +1,80 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/TopBar.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/LeftBar.gd" type="Script" id=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TopBar" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 0.053
+margin_bottom = 0.199999
+script = ExtResource( 1 )
+
+[node name="Container" type="HBoxContainer" parent="TopBar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="File" type="MenuButton" parent="TopBar/Container"]
+margin_right = 35.0
+margin_bottom = 30.0
+text = "File"
+switch_on_hover = true
+
+[node name="PopUps" type="Control" parent="."]
+anchor_left = 0.25
+anchor_top = 0.213
+anchor_right = 0.75
+anchor_bottom = 0.747
+margin_left = 256.0
+margin_top = 172.2
+margin_right = -256.0
+margin_bottom = -148.2
+
+[node name="FileDialog" type="FileDialog" parent="PopUps"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -256.0
+margin_top = -172.0
+margin_right = 256.0
+margin_bottom = 148.0
+window_title = "Open a Directory"
+resizable = true
+dialog_text = "Choose your music libary"
+mode = 2
+access = 2
+current_dir = "/home/molten/Documents/GMP"
+current_path = "/home/molten/Documents/GMP/"
+
+[node name="LeftBar" type="Panel" parent="."]
+anchor_top = 0.056
+anchor_right = 0.25
+anchor_bottom = 0.889
+margin_top = -1.256
+margin_bottom = -0.0640259
+script = ExtResource( 2 )
+
+[node name="LibraryControls" type="HBoxContainer" parent="LeftBar"]
+anchor_right = 1.0
+anchor_bottom = 0.056
+margin_bottom = 0.191999
+
+[node name="Refresh" type="Button" parent="LeftBar/LibraryControls"]
+margin_right = 109.0
+margin_bottom = 27.0
+text = "reload (change)"
+flat = true
+
+[node name="MainList" type="ItemList" parent="LeftBar"]
+anchor_top = 0.042
+anchor_right = 1.0
+anchor_bottom = 0.986
+margin_top = 0.143999
+margin_bottom = 7.95197
+max_text_lines = 2
+
+[connection signal="dir_selected" from="PopUps/FileDialog" to="TopBar" method="_file_dialog_dir_selected"]
