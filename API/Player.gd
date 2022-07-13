@@ -16,7 +16,7 @@ var shuffle: bool = false
 # ------------------------------------------------------------------------------
 signal finished
 signal queue_updated
-signal playback_started
+signal pause_changed
 
 # ------------------------------------------------------------------------------
 
@@ -37,7 +37,6 @@ func _play_next() -> void:
 		_play(queue[0].path)
 
 func _play(file_path: String) -> void:
-	emit_signal("playback_started")
 	var file := File.new()
 	file.open(file_path, File.READ)
 	var size := file.get_len()
@@ -47,6 +46,8 @@ func _play(file_path: String) -> void:
 	stream.data = bytes
 	Player.stream = stream
 	Player.playing = true
+	Player.pause_mode = false
+	emit_signal("playback_started")
 
 func _stop() -> void:
 	Player.stream = null
@@ -55,6 +56,7 @@ func _stop() -> void:
 # Returns the new pause state
 func toggle_pause() -> bool:
 	Player.stream_paused = !Player.stream_paused
+	emit_signal("pause_changed")
 	return Player.stream_paused
 
 func skip() -> void:

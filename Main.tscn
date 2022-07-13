@@ -3,7 +3,7 @@
 [ext_resource path="res://Scripts/TopBar.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/LeftBar.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/BottomBar.gd" type="Script" id=3]
-[ext_resource path="res://Assets/MainControls/play.png" type="Texture" id=4]
+[ext_resource path="res://Assets/MainControls/pause.png" type="Texture" id=4]
 [ext_resource path="res://Assets/MainControls/skip_left.png" type="Texture" id=5]
 [ext_resource path="res://Assets/MainControls/skip_right.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/QueueSideBar.gd" type="Script" id=7]
@@ -51,8 +51,8 @@ switch_on_hover = true
 anchor_top = 0.056
 anchor_right = 0.25
 anchor_bottom = 0.889
-margin_top = -1.256
-margin_bottom = -0.0640259
+margin_top = -0.256001
+margin_bottom = 0.935974
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -129,12 +129,15 @@ margin_left = -6.10352e-05
 min_value = -80.0
 max_value = 24.0
 
-[node name="ProgressBar" type="ProgressBar" parent="BottomBar"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_top = -7.0
-margin_right = 256.0
-margin_bottom = 7.0
+[node name="DurationBar" type="HSlider" parent="BottomBar"]
+anchor_left = 0.031
+anchor_top = 0.25
+anchor_right = 0.219
+anchor_bottom = 0.75
+margin_left = 0.255999
+margin_right = -0.256012
+margin_bottom = -3.8147e-06
+editable = false
 
 [node name="PopUps" type="Control" parent="."]
 anchor_left = 0.25

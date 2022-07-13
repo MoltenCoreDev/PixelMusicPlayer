@@ -18,11 +18,11 @@ func read_ID3(file_path: String) -> TrackFile:
 		print(file_path)
 		return result
 	
-	print(file.get_buffer(1))
+	file.get_buffer(1)
 	
 	# size of the header
 	var total_size := _sync_safe_to_int(file.get_buffer(4))
-	print(total_size)
+	#print(total_size)
 	
 	# frames
 	while total_size > 0:
@@ -30,18 +30,28 @@ func read_ID3(file_path: String) -> TrackFile:
 		var size: int = _sync_safe_to_int(file.get_buffer(4))
 		var flags: PoolByteArray = file.get_buffer(2)
 		total_size -= 10
-		print("Registerd frame %s with size %s with flags %s" % [frame_id, str(size), flags])
+		#print("Registerd frame %s with size %s with flags %s" % [frame_id, str(size), flags])
 		match frame_id:
 			"TIT2":
-				result.title = file.get_buffer(size).get_string_from_utf8()
+				if file.get_8() != 3:
+					print("This text encoding format is unsupported!")
+				result.title = file.get_buffer(size-1).get_string_from_utf8()
 			"TPE1":
-				result.artist = file.get_buffer(size).get_string_from_utf8()
+				if file.get_8() != 3:
+					print("This text encoding format is unsupported!")
+				result.artist = file.get_buffer(size-1).get_string_from_utf8()
 			"TRCK":
-				result.index = file.get_buffer(size).get_string_from_utf8()
+				if file.get_8() != 3:
+					print("This text encoding format is unsupported!")
+				result.index = file.get_buffer(size-1).get_string_from_utf8()
 			"TALB":
-					result.album = file.get_buffer(size).get_string_from_utf8()
+				if file.get_8() != 3:
+					print("This text encoding format is unsupported!")
+				result.album = file.get_buffer(size-1).get_string_from_utf8()
 			"TDRC":
-				result.year = file.get_buffer(size).get_string_from_utf8()
+				if file.get_8() != 3:
+					print("This text encoding format is unsupported!")
+				result.year = file.get_buffer(size-1).get_string_from_utf8()
 			_:
 				file.get_buffer(size)
 		

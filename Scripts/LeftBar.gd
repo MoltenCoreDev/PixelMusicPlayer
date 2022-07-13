@@ -36,16 +36,37 @@ func _redraw_library() -> void:
 
 func _reimport_library(files: Array) -> void:
 	var lib := LibraryFile.new()
-	for item in files:
-		if not item.ends_with(".mp3"):
+	for path in files:
+		if not path.ends_with(".mp3"):
 			continue
-		var track := Tag.read_ID3(item)
+		var track := TrackFile.new()
+		# parse track
+		track = Tag.read_ID3(path)
 		if track.title == "":
-			track.title = item.get_file()
+			print("failed to parse tags, falling back to %s" % path)
+			track.title = path
 		lib.tracks.append(track)
-	ResourceSaver.save("user://Library.tres", lib)
 	Global.library = lib
+	ResourceSaver.save("user://Library.tres", lib)
+	_get_albums()
 	_redraw_library()
+
+func _get_albums() -> void:
+	var lib := Global.library
+	var albums = {}
+	for track in lib.tracks:
+		if track.album == "":
+			continue
+		
+		if albums.keys().has(track.album):
+			albums[track.album].append(track)
+		else:
+			albums[track.album] = []
+			albums[track.album].append(track)
+	lib.albums = albums
+	Global.library = lib
+	ResourceSaver.save("user://Library.tres", lib)
+	
 
 # ------------------------------------------------------------------------------
 

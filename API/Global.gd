@@ -3,7 +3,7 @@ extends Node
 
 # ------------------------------------------------------------------------------
 export(String, DIR) var library_path setget _library_path_changed
-export(Resource) var library
+var library: LibraryFile
 # ------------------------------------------------------------------------------
 
 # Main Control Node of the software
