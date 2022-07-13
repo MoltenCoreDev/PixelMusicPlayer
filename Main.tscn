@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/TopBar.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/LeftBar.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/BottomBar.gd" type="Script" id=3]
+[ext_resource path="res://Assets/MainControls/play.png" type="Texture" id=4]
+[ext_resource path="res://Assets/MainControls/skip_left.png" type="Texture" id=5]
+[ext_resource path="res://Assets/MainControls/skip_right.png" type="Texture" id=6]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -25,6 +29,88 @@ margin_right = 35.0
 margin_bottom = 30.0
 text = "File"
 switch_on_hover = true
+
+[node name="LeftBar" type="Panel" parent="."]
+anchor_top = 0.056
+anchor_right = 0.25
+anchor_bottom = 0.889
+margin_top = -1.256
+margin_bottom = -0.0640259
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="LibraryControls" type="HBoxContainer" parent="LeftBar"]
+anchor_right = 1.0
+anchor_bottom = 0.056
+margin_bottom = 0.191999
+
+[node name="Refresh" type="Button" parent="LeftBar/LibraryControls"]
+margin_right = 109.0
+margin_bottom = 27.0
+text = "reload (change)"
+flat = true
+
+[node name="ListScrollContainer" type="ScrollContainer" parent="LeftBar"]
+anchor_top = 0.069
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -0.189003
+
+[node name="MainList" type="VBoxContainer" parent="LeftBar/ListScrollContainer"]
+
+[node name="BottomBar" type="Panel" parent="."]
+anchor_top = 0.889
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -0.0640259
+script = ExtResource( 3 )
+
+[node name="MainControls" type="HBoxContainer" parent="BottomBar"]
+anchor_left = 0.375
+anchor_right = 0.562
+anchor_bottom = 1.0
+margin_left = -3.05176e-05
+margin_right = 0.511963
+alignment = 1
+
+[node name="Shuffle" type="ToolButton" parent="BottomBar/MainControls"]
+margin_right = 55.0
+margin_bottom = 64.0
+text = "shuffle"
+
+[node name="Back" type="ToolButton" parent="BottomBar/MainControls"]
+margin_left = 59.0
+margin_right = 103.0
+margin_bottom = 64.0
+icon = ExtResource( 5 )
+
+[node name="PlayPause" type="ToolButton" parent="BottomBar/MainControls"]
+margin_left = 107.0
+margin_right = 151.0
+margin_bottom = 64.0
+icon = ExtResource( 4 )
+
+[node name="Forward" type="ToolButton" parent="BottomBar/MainControls"]
+margin_left = 155.0
+margin_right = 199.0
+margin_bottom = 64.0
+icon = ExtResource( 6 )
+
+[node name="Loop" type="ToolButton" parent="BottomBar/MainControls"]
+margin_left = 203.0
+margin_right = 243.0
+margin_bottom = 64.0
+text = "loop"
+
+[node name="VolumeSlider" type="HSlider" parent="BottomBar"]
+anchor_left = 0.875
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -6.10352e-05
+min_value = -40.0
+max_value = 24.0
 
 [node name="PopUps" type="Control" parent="."]
 anchor_left = 0.25
@@ -53,31 +139,11 @@ access = 2
 current_dir = "/home/molten/Documents/GMP"
 current_path = "/home/molten/Documents/GMP/"
 
-[node name="LeftBar" type="Panel" parent="."]
-anchor_top = 0.056
-anchor_right = 0.25
-anchor_bottom = 0.889
-margin_top = -1.256
-margin_bottom = -0.0640259
-script = ExtResource( 2 )
+[node name="MainPlayer" type="AudioStreamPlayer" parent="."]
 
-[node name="LibraryControls" type="HBoxContainer" parent="LeftBar"]
-anchor_right = 1.0
-anchor_bottom = 0.056
-margin_bottom = 0.191999
-
-[node name="Refresh" type="Button" parent="LeftBar/LibraryControls"]
-margin_right = 109.0
-margin_bottom = 27.0
-text = "reload (change)"
-flat = true
-
-[node name="MainList" type="ItemList" parent="LeftBar"]
-anchor_top = 0.042
-anchor_right = 1.0
-anchor_bottom = 0.986
-margin_top = 0.143999
-margin_bottom = 7.95197
-max_text_lines = 2
-
+[connection signal="pressed" from="LeftBar/LibraryControls/Refresh" to="LeftBar" method="_on_Refresh_pressed"]
+[connection signal="pressed" from="BottomBar/MainControls/Back" to="BottomBar" method="_on_Back_pressed"]
+[connection signal="pressed" from="BottomBar/MainControls/PlayPause" to="BottomBar" method="_on_PlayPause_pressed"]
+[connection signal="pressed" from="BottomBar/MainControls/Forward" to="BottomBar" method="_on_Forward_pressed"]
+[connection signal="value_changed" from="BottomBar/VolumeSlider" to="BottomBar" method="_on_VolumeSlider_value_changed"]
 [connection signal="dir_selected" from="PopUps/FileDialog" to="TopBar" method="_file_dialog_dir_selected"]

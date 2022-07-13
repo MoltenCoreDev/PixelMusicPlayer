@@ -5,3 +5,5 @@ class_name LibraryFile
 
 
 export(Array, Resource) var tracks := []
+export(Array, Resource) var albums := []
+export(Array, Resource) var playlists := []

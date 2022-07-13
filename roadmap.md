@@ -6,15 +6,14 @@
 - [x] library save system
 
 ## 0.1
-- [ ] bottom bar (play/pause/stop/next/previous/volume/repeat/shuffle)
-- [ ] actual music playback (supprt for mp3)
+- [x] bottom bar (play/pause/stop/next/previous/volume/repeat/shuffle)
+- [x] actual music playback (supprt for mp3)
+- [x] queue system!
 
 ## 0.2
-- [ ] playlist system
-- [ ] basic documentation
+- [ ] list view by album, author, etc. (mp3 tags)
 
 ## 0.3
-- [ ] list view by album, author, etc. (mp3 tags)
 - [ ] support for wav, ogg, flac
 
 ## 0.4
