@@ -4,15 +4,19 @@ extends Node
 
 # ------------------------------------------------------------------------------
 onready var Player: AudioStreamPlayer = Global.main.find_node("MainPlayer")
-onready var Viewer: RichTextLabel = Global.main.get_node("dirty queue shower")
+onready var Forward: ToolButton = Global.main.find_node("Forward")
+onready var Back: ToolButton = Global.main.find_node("Back")
 # ------------------------------------------------------------------------------
 var queue: Array = []
+var history: Array = []
 
 var loop: bool = false
 var shuffle: bool = false
 
 # ------------------------------------------------------------------------------
 signal finished
+signal queue_updated
+signal playback_started
 
 # ------------------------------------------------------------------------------
 
@@ -21,12 +25,19 @@ func _ready():
 
 # ------------------------------------------------------------------------------
 
-func _add_to_queue(track: TrackFile) -> void:
+func add_to_queue(track: TrackFile) -> void:
 	queue.append(track)
+	emit_signal("queue_updated")
 	if not Player.playing:
 		_play(queue[0].path)
 
+# internal function please use "skip"
+func _play_next() -> void:
+	if queue.size() > 0:
+		_play(queue[0].path)
+
 func _play(file_path: String) -> void:
+	emit_signal("playback_started")
 	var file := File.new()
 	file.open(file_path, File.READ)
 	var size := file.get_len()
@@ -37,18 +48,41 @@ func _play(file_path: String) -> void:
 	Player.stream = stream
 	Player.playing = true
 
+func _stop() -> void:
+	Player.stream = null
+	Player.playing = false
 
 # Returns the new pause state
 func toggle_pause() -> bool:
 	Player.stream_paused = !Player.stream_paused
 	return Player.stream_paused
 
+func skip() -> void:
+	queue.pop_front()
+	emit_signal("queue_updated")
+	_stop()
+	_play_next()
+
+func remove_from_queue(index: int) -> void:
+	if index == 0:
+		skip()
+	else:
+		queue.pop_at(index)
+		emit_signal("queue_updated")
+
+func _get_duration() -> float:
+	if Player.stream != null:
+		return Player.stream.get_length()
+	return 0.0
+
+func _get_position():
+	return Player.get_playback_position()
+
+func _seek(time: float) -> void:
+	Player.seek(time)
+
 # ------------------------------------------------------------------------------
 
 func _finished() -> void:
-	emit_signal("finished", queue[0])
-	queue.pop_front()
-	if queue.size() > 0:
-		_play(queue[0].path)
-
-
+	emit_signal("finished")
+	skip()

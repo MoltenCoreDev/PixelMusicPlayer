@@ -2,7 +2,7 @@ extends Panel
 # TODO: DOCS
 
 # ------------------------------------------------------------------------------
-onready var Track: PackedScene = preload("res://Scenes/Track.tscn")
+onready var Track: PackedScene = preload("res://Scenes/LeftBarEntry.tscn")
 onready var List: VBoxContainer = $ListScrollContainer/MainList
 # ------------------------------------------------------------------------------
 

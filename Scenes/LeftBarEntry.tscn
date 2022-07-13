@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Button
+
+export(Resource) var track setget _set_track_file
+
+func _set_track_file(new_track: Resource) -> void:
+	track = new_track
+	self.text = track.title
+
+func _on_Track_pressed():
+	Player.add_to_queue(track)
+"
+
+[node name="Track" type="Button"]
+margin_right = 12.0
+margin_bottom = 20.0
+flat = true
+align = 0
+script = SubResource( 1 )
+
+[connection signal="pressed" from="." to="." method="_on_Track_pressed"]

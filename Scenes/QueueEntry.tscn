@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/cross.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends ToolButton
+
+export(Resource) var track setget _set_track_file
+export(int) var index: int
+
+func _set_track_file(new_track: Resource) -> void:
+	track = new_track
+	if index:
+		text = \"%s. %s\" % [index, track.title]
+	else:
+		text = track.title
+
+func _on_QueueEntry_pressed():
+	Player.remove_from_queue(index)
+"
+
+[node name="QueueEntry" type="ToolButton"]
+anchor_right = 0.125
+anchor_bottom = 0.056
+margin_bottom = -0.256001
+text = "track"
+icon = ExtResource( 1 )
+align = 0
+script = SubResource( 1 )
+
+[connection signal="pressed" from="." to="." method="_on_QueueEntry_pressed"]
