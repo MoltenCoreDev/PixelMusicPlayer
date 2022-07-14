@@ -3,14 +3,22 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Button
 
-export(Resource) var track setget _set_track_file
+export(String) var album_title setget _set_title
+export(Array, Resource) var tracks
 
-func _set_track_file(new_track: Resource) -> void:
-	track = new_track
-	self.text = track.title
+onready var TrackPanel: Panel = Global.main.get_node(\"TrackPanel\")
+
+signal album_pressed
+
+func _ready():
+	self.connect(\"album_pressed\", TrackPanel, \"view_album\")
+
+func _set_title(new_value):
+	album_title = new_value
+	self.text = album_title
 
 func _on_Track_pressed():
-	Player.add_to_queue(track)
+	emit_signal(\"album_pressed\", album_title, tracks)
 "
 
 [node name="Track" type="Button"]

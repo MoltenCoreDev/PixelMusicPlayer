@@ -2,8 +2,9 @@ extends Panel
 # TODO: DOCS
 
 # ------------------------------------------------------------------------------
-onready var Track: PackedScene = preload("res://Scenes/LeftBarEntry.tscn")
+onready var LeftBarEntry: PackedScene = preload("res://Scenes/LeftBarEntry.tscn")
 onready var List: VBoxContainer = $ListScrollContainer/MainList
+onready var TrackPanel: Panel = Global.main.find_node("TrackPanel")
 # ------------------------------------------------------------------------------
 
 func _ready() -> void:
@@ -12,7 +13,7 @@ func _ready() -> void:
 	if dir.file_exists("user://Library.tres"):
 		var lib := load("user://Library.tres")
 		Global.library = lib
-		_redraw_library()
+		group_by_album()
 
 # ------------------------------------------------------------------------------
 
@@ -20,19 +21,21 @@ func _ready() -> void:
 
 # ------------------------------------------------------------------------------
 
-func _redraw_library() -> void:
+func _clear() -> void:
 	var items := List.get_children()
 	for item in items:
 		item.queue_free()
 	if not Global.library:
-		# TODO create logger API
 		print("can't find library")
 		return
-	for track in Global.library.tracks:
-		var list_item := Track.instance()
-		list_item.track = track
+
+func group_by_album() -> void:
+	_clear()
+	for album in Global.library.albums:
+		var list_item := LeftBarEntry.instance()
+		list_item.album_title = album
+		list_item.tracks = Global.library.albums[album]
 		List.add_child(list_item)
-		
 
 func _reimport_library(files: Array) -> void:
 	var lib := LibraryFile.new()
@@ -49,7 +52,7 @@ func _reimport_library(files: Array) -> void:
 	Global.library = lib
 	ResourceSaver.save("user://Library.tres", lib)
 	_get_albums()
-	_redraw_library()
+	group_by_album()
 
 func _get_albums() -> void:
 	var lib := Global.library
@@ -70,7 +73,10 @@ func _get_albums() -> void:
 
 # ------------------------------------------------------------------------------
 
-func _on_Refresh_pressed():
-	_redraw_library()
+func _on_GroupAlbum_pressed():
+	_clear()
+	group_by_album()
 
 # ------------------------------------------------------------------------------
+
+

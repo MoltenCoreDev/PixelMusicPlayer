@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/TopBar.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/LeftBar.gd" type="Script" id=2]
@@ -7,10 +7,31 @@
 [ext_resource path="res://Assets/MainControls/skip_left.png" type="Texture" id=5]
 [ext_resource path="res://Assets/MainControls/skip_right.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/QueueSideBar.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/TrackPanel.gd" type="Script" id=8]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="BackGroundSafetyNet" type="Panel" parent="."]
+margin_right = 1024.0
+margin_bottom = 576.0
+
+[node name="TrackPanel" type="Panel" parent="."]
+anchor_left = 0.25
+anchor_top = 0.056
+anchor_right = 0.812
+anchor_bottom = 0.889
+margin_top = -0.256001
+margin_right = 0.511963
+margin_bottom = -0.0640259
+script = ExtResource( 8 )
+
+[node name="TrackPanelScroll" type="ScrollContainer" parent="TrackPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="GroupList" type="VBoxContainer" parent="TrackPanel/TrackPanelScroll"]
 
 [node name="QueueSideBar" type="Panel" parent="."]
 anchor_left = 0.812
@@ -18,6 +39,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 0.511963
 script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="QueueSideBar"]
 anchor_top = 0.056
@@ -63,11 +87,10 @@ anchor_right = 1.0
 anchor_bottom = 0.056
 margin_bottom = 0.191999
 
-[node name="Refresh" type="Button" parent="LeftBar/LibraryControls"]
-margin_right = 109.0
+[node name="GroupAlbum" type="ToolButton" parent="LeftBar/LibraryControls"]
+margin_right = 111.0
 margin_bottom = 27.0
-text = "reload (change)"
-flat = true
+text = "group by album"
 
 [node name="ListScrollContainer" type="ScrollContainer" parent="LeftBar"]
 anchor_top = 0.069
@@ -168,7 +191,7 @@ current_path = "/home/molten/Documents/GMP/"
 
 [node name="MainPlayer" type="AudioStreamPlayer" parent="."]
 
-[connection signal="pressed" from="LeftBar/LibraryControls/Refresh" to="LeftBar" method="_on_Refresh_pressed"]
+[connection signal="pressed" from="LeftBar/LibraryControls/GroupAlbum" to="LeftBar" method="_on_GroupAlbum_pressed"]
 [connection signal="pressed" from="BottomBar/MainControls/PlayPause" to="BottomBar" method="_on_PlayPause_pressed"]
 [connection signal="pressed" from="BottomBar/MainControls/Forward" to="BottomBar" method="_on_Forward_pressed"]
 [connection signal="value_changed" from="BottomBar/VolumeSlider" to="BottomBar" method="_on_VolumeSlider_value_changed"]
