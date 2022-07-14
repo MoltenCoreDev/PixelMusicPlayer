@@ -88,9 +88,15 @@ anchor_bottom = 0.056
 margin_bottom = 0.191999
 
 [node name="GroupAlbum" type="ToolButton" parent="LeftBar/LibraryControls"]
-margin_right = 111.0
+margin_right = 34.0
 margin_bottom = 27.0
-text = "group by album"
+text = "gba"
+
+[node name="GroupArtist" type="ToolButton" parent="LeftBar/LibraryControls"]
+margin_left = 38.0
+margin_right = 77.0
+margin_bottom = 27.0
+text = "gbar"
 
 [node name="ListScrollContainer" type="ScrollContainer" parent="LeftBar"]
 anchor_top = 0.069
@@ -192,6 +198,7 @@ current_path = "/home/molten/Documents/GMP/"
 [node name="MainPlayer" type="AudioStreamPlayer" parent="."]
 
 [connection signal="pressed" from="LeftBar/LibraryControls/GroupAlbum" to="LeftBar" method="_on_GroupAlbum_pressed"]
+[connection signal="pressed" from="LeftBar/LibraryControls/GroupArtist" to="LeftBar" method="_on_GroupArtist_pressed"]
 [connection signal="pressed" from="BottomBar/MainControls/PlayPause" to="BottomBar" method="_on_PlayPause_pressed"]
 [connection signal="pressed" from="BottomBar/MainControls/Forward" to="BottomBar" method="_on_Forward_pressed"]
 [connection signal="value_changed" from="BottomBar/VolumeSlider" to="BottomBar" method="_on_VolumeSlider_value_changed"]

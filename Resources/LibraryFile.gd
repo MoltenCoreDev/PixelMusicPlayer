@@ -3,3 +3,4 @@ class_name LibraryFile
 
 export(Array, Resource) var tracks := []
 export(Dictionary) var albums = {}
+export(Dictionary) var artists = {}

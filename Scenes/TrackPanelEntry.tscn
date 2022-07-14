@@ -7,15 +7,17 @@ export(Resource) var track setget _set_track
 
 func _set_track(new_value):
 	track = new_value
-	self.text = track.title
+	self.text = \"%s - %s\" % [track.artist, track.title]
 
 func _on_Track_pressed():
 	Player.add_to_queue(track)
 "
 
 [node name="Track" type="Button"]
-margin_right = 12.0
-margin_bottom = 20.0
+anchor_right = 0.187
+anchor_bottom = 0.056
+margin_right = 0.511993
+margin_bottom = -0.256001
 flat = true
 align = 0
 script = SubResource( 1 )

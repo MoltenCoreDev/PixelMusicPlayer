@@ -1,13 +1,13 @@
 extends Panel
 
-onready var Group: PackedScene = preload("res://Scenes/Group.tscn")
 onready var List: VBoxContainer = $TrackPanelScroll/GroupList
-
+onready var Entry: PackedScene = load("res://Scenes/TrackPanelEntry.tscn")
 func view_album(album_title: String, tracks: Array) -> void:
 	_clear()
-	var list_item := Group.instance()
-	list_item.init(album_title, tracks)
-	List.add_child(list_item)
+	for track in tracks:
+		var entry := Entry.instance()
+		entry.track = track
+		List.add_child(entry)
 
 func _clear() -> void:
 	var children := List.get_children()

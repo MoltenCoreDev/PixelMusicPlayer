@@ -37,6 +37,14 @@ func group_by_album() -> void:
 		list_item.tracks = Global.library.albums[album]
 		List.add_child(list_item)
 
+func group_by_artist() -> void:
+	_clear()
+	for artist in Global.library.artists:
+		var list_item := LeftBarEntry.instance()
+		list_item.album_title = artist
+		list_item.tracks = Global.library.artists[artist]
+		List.add_child(list_item)
+
 func _reimport_library(files: Array) -> void:
 	var lib := LibraryFile.new()
 	for path in files:
@@ -69,14 +77,27 @@ func _get_albums() -> void:
 	lib.albums = albums
 	Global.library = lib
 	ResourceSaver.save("user://Library.tres", lib)
-	
+	_get_artists()
 
-# ------------------------------------------------------------------------------
+func _get_artists() -> void:
+	var lib := Global.library
+	var artists = {}
+	for track in lib.tracks:
+		if track.artist == "":
+			continue
+		
+		if artists.keys().has(track.artist):
+			artists[track.artist].append(track)
+		else:
+			artists[track.artist] = []
+			artists[track.artist].append(track)
+	lib.artists = artists
+	Global.library = lib
+	ResourceSaver.save("user://Library.tres", lib)
+
+
+func _on_GroupArtist_pressed():
+	group_by_artist()
 
 func _on_GroupAlbum_pressed():
-	_clear()
 	group_by_album()
-
-# ------------------------------------------------------------------------------
-
-
